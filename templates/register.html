@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1 style="margin-left: 40%">
+        Strona rejestracji
+    </h1>
+    <div class="container" style="margin-top: 5%">
+        <div id="login-row" class="row justify-content-center align-items-center">
+            <div id="login-column" class="col-md-6">
+                <div class="box">
+                    <form method ="post" class="post-form">{% csrf_token %}
+                         <table id = "AddNewUsr" class="table">
+                            {{ form.as_table }}
+                         </table>
+                         <button type="submit" class="button btn btn-light" style="margin-left: 40%">Utwórz</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if valid %}
+           {% if valid == 1 %}
+             <p><div class="alert alert-success" role="alert">Rejestracja przeprowadzona pomyślnie!</div></p>
+            {% elif valid == 2 %}
+               <div class="alert alert-danger" role="alert">Niepowodzenie rejestracji!</div>
+           {% elif valid == 3 %}
+               <div class="alert alert-danger" role="alert">Podany użytkownik już istnieje!</div>
+        {% endif %}
+    {% endif %}
+{% endblock %}

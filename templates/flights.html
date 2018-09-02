@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+        <h1 style="margin-left: 40%; margin-bottom: 5%;">
+            Strona lotów
+        </h1>
+        <div class = "container">
+            <form method="get" class="form-group">
+                <h2>Szukaj po dacie wylotu(Od, Do)</h2>
+                <input class="form-control" type="datetime-local" name="start_from">
+                <input class="form-control" type="datetime-local" name="start_to">
+                <input type="number" value="1" name="switcher" id="switcher" style="display: none">
+                <input class="btn btn-default" style="margin-left: 45%" type="submit" name="btn1" value="Szukaj">
+            </form>
+             <form method="get" class="form-group">
+                 <h2>Szukaj po dacie przylotu(Od, Do)</h2>
+                 <input class="form-control" type="datetime-local" name="land_from">
+                 <input class="form-control" type="datetime-local" name="land_to">
+                 <input type="number" value="2" name="switcher" id="switcher" style="display: none">
+                <input class="btn btn-default" style="margin-left: 45%" type="submit" name="btn2" value="Szukaj">
+            </form>
+        </div>
+        {% if all_loty|slice:"50" %}
+            <table class="table">
+                <tr>
+                    <th scope="col">Skąd</th>
+                    <th scope="col">Dokąd</th>
+                    <th scope="col">Godzina wylotu</th>
+                    <th scope="col">Godzina przylotu</th>
+                    <th scope="col">Sprawdź szczegóły</th>
+                </tr>
+                {% for p in all_loty %}
+                <tr>
+                    <td>{{ p.start_terminal}}</td>
+                    <td>{{ p.land_terminal }}</td>
+                    <td>{{ p.start_time }}</td>
+                    <td>{{ p.land_time }}</td>
+                    <td><a href="{% url 'flight_info' p.flight_id %}" style="color: white;">Sprawdź</a></td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <h2>BRAK LOTÓW</h2>
+        {% endif %}
+    {% endif %}
+{% endblock %}

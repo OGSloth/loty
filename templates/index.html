@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="jumbotron">
+  <h1 class="display-4">Witaj na stronie kontroli lotów</h1>
+  <p class="lead">Aby mieć dostęp do wsyzstkich możliwości wpierw się zarejestruj i zaloguj</p>
+  <hr class="my-4">
+  <p>Aplikacja powstała na potrzeby zadania zaliczeniowego z przedmiotu ,,Aplikacje WWW" na wydziale MIM UW. Stworzona przez Marcin Gadomskeigo</p><p class="lead">
+    <a class="btn btn-primary btn-lg" href="{% url 'register' %}" role="button">Zarejestruj się</a>
+  </p>
+</div>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% if user.is_authenticated %}
+        <script>
+            var id;
+            $("#own").change(function() {
+                id = $(this).children(":selected").attr("id");
+            });
+            function Adding() {
+                let x = {{ my_flight.0.flight_id }};
+                let seats = document.getElementById('seats').value;
+                let fullname = document.getElementById('own').value.split(",");
+                window.location.href = '/try_add/' + x + '/' +
+                    fullname[0] + '/' + fullname[1] + '/' + seats;
+            }
+        </script>
+        <h1 style="margin-top: 5%; margin-left: 40%; margin-bottom: 5%">Dodaj pasażera</h1>
+        {% if my_flight %}
+            {% if owners%}{% csrf_token %}
+                <div class="form-group">
+                    <label for="sel1"><h2>Wybierz pasażera:</h2></label>
+                        <select class="form-control" id = "own">
+                            {% for o in owners %}
+                                <option value ="{{ o.name }},{{ o.surname }}" id="{{ o }}">{{ o }}</option>
+                            {% endfor %}
+                        </select>
+                    </label>
+                    <h2>Liczba dostępnych miejsc:</h2>
+                    <input type="number" class="form-control" id="left" disabled value="{{ left_seats }}">
+                    <h2>Wybierz ilość miejsc:</h2>
+                    <input type="number" class="form-control" id="seats">
+                    <button type="button" class="btn btn-default" style="margin-top: 2%" onclick="Adding()">Dodaj</button>
+                </div>
+            {% else %}
+                    <h1 style="margin-top: 5%; margin-left: 40%; margin-bottom: 5%">Brak pasażerów do dodania</h1>
+            {% endif %}
+        {% else %}
+            <h1 style="margin-left: 30%; margin-top: 10%">BRAK PODANEGO LOTU</h1>
+        {% endif %}
+    {% endif %}
+    {% if switcher %}
+           {% if switcher == 1 %}
+             <p><div class="alert alert-success" role="alert">Pomyślnie dodano!</div></p>
+            {% else %}
+               {% if valid %}
+                {% if valid == 2 %}
+                    <div class="alert alert-danger" role="alert">Nie ma takiej osoby!</div>
+                {% elif valid == 3 %}
+                    <div class="alert alert-danger" role="alert">Ilość miejsc nie jest liczbą!</div>
+                {% else %}
+                    <div class="alert alert-danger" role="alert">Niepoprawne dane!</div>
+                {% endif %}
+            {% endif %}
+        {% endif %}
+    {% endif %}
+{% endblock %}

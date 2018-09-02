@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+        {% if my_flight %}
+            <h1 style="margin-top: 5%; margin-left: 40%; margin-bottom: 5%">Informacje lotu</h1>
+            <table class="table">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Informacje</th>
+                </tr>
+                <tr>
+                    <td>Numer lotu</td>
+                    <td>{{ my_flight.0.flight_id }}</td>
+                </tr>
+                <tr>
+                    <td>Nazwa samolotu</td>
+                    <td>{{ my_flight.0.plane_id.id }}</td>
+                </tr>
+                <tr>
+                    <td>Skąd</td>
+                    <td>{{ my_flight.0.start_terminal }}</td>
+                </tr>
+                <tr>
+                    <td>Dokąd</td>
+                    <td>{{ my_flight.0.land_terminal }}</td>
+                </tr>
+                <tr>
+                    <td>Godzina wylotu</td>
+                    <td>{{ my_flight.0.start_time }}</td>
+                </tr>
+                <tr>
+                    <td>Godzina przylotu</td>
+                    <td>{{ my_flight.0.land_time }}</td>
+                </tr>
+                <tr>
+                    <td>Miejsc w samolocie</td>
+                    <td>{{ my_flight.0.plane_id.places }}</td>
+                </tr>
+                <tr>
+                    <td>Wolne miejsca</td>
+                    <td>{{ left_seats }}</td>
+                </tr>
+            </table>
+            <a href="{% url 'add_ticket' my_flight.0.flight_id %}"><h1 style="margin-left: 40%; margin-top: 5%; margin-bottom: 5%; color: white">Dodaj pasażera</h1></a>
+            {% if tickets %}
+                <h1 style="margin-top: 5%; margin-left: 40%; margin-bottom: 5%">Lista pasażerów</h1>
+                <table class="table">
+                    <tr>
+                        <th>Imię i Naziwsko</th>
+                        <th>Liczba miejsc</th>
+                    </tr>
+                    {% for t in tickets%}
+                        <tr>
+                            <td>{{ t.owner }}</td>
+                            <td>{{ t.seats }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            {% else %}
+                <h1 style="margin-left: 40%; margin-top: 5%; margin-bottom: 5%">Brak pasażerów</h1>
+            {% endif %}
+        {% else %}
+            <h1 style="margin-left: 30%; margin-top: 10%">BRAK PODANEGO LOTU</h1>
+        {% endif %}
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1 style="margin-left: 40%">
+        Strona logowania
+    </h1>
+    <div class="container" style="margin-top: 5%;">
+        <div  class="row justify-content-center align-items-center">
+            <div id="login-column" class="col-md-6">
+                <div class="box">
+                    <form method ="post" class="post-form">{% csrf_token %}
+                         <table id = "Login" class="table">
+                              {{ form.as_table }}
+                         </table>
+                        <button type="submit" class="button btn btn-light" style="margin-left: 40%">Zaloguj się!</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if valid %}
+           {% if valid == 1 %}
+             <p><div class="alert alert-success" role="alert">Logowanie przeprowadzone pomyślnie!</div></p>
+            {% elif valid == 2 %}
+               <div class="alert alert-danger" role="alert">Nieprawidłowa nazwa użytkownika bądź hasło!</div>
+        {% endif %}
+    {% endif %}
+{% endblock %}
